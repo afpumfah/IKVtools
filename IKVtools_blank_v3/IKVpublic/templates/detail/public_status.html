@@ -1,0 +1,17 @@
+{% if  object.status == 'ID' %}
+    <span class="badge bg-danger">{{object.get_status_display}}</span>
+{% elif object.status == 'CR' %}
+    <span class="badge bg-primary">{{object.get_status_display}}</span>
+{% elif object.status == 'GO' %}
+    <span class="badge bg-success">{{object.get_status_display}}</span>
+{% elif object.status == 'END' %}
+    <span class="badge bg-gray">{{object.get_status_display}}</span>
+{% elif object.status == 'DD' %}
+    <span class="badge bg-gray-dark">{{object.get_status_display}}</span>
+{% elif object.status == 'PL' %}
+    <span class="badge bg-warning">{{object.get_status_display}}</span>
+{% elif object.status == 'AC' %}
+    <span class="badge bg-olive">{{object.get_status_display}}</span>
+{% elif object.status == 'PO' %}
+    <span class="badge bg-maroon">{{object.get_status_display}}</span>
+{% endif %}

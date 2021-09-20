@@ -1,0 +1,9 @@
+{% if industry.status == 'CR' %}
+    <span class="badge bg-primary">{{industry.get_status_display}}</span>
+{% elif industry.status == 'GO' %}
+    <span class="badge bg-success">{{industry.get_status_display}}</span>
+{% elif industry.status == 'END' %}
+    <span class="badge bg-gray">{{industry.get_status_display}}</span>
+{% elif industry.status == 'DD' %}
+    <span class="badge bg-gray-dark">{{industry.get_status_display}}</span>
+{% endif %}

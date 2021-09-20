@@ -1,0 +1,28 @@
+<script>
+    var ctx = document.getElementById("thesis_barChart");
+    var myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+           labels: ["MA", "BA", "PA"],
+           datasets: [
+               {
+                   label: 'Veröffentlichungen',
+                   data: [{{ma|stringformat:"f"}}, {{ba|stringformat:"f"}}, {{pa|stringformat:"f"}}],
+                   backgroundColor: ['#f56954', '#00a65a', '#f39c12'],
+                   borderColor: ['rgba(0,0,0,.5)', 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },  
+           ]
+       },
+       options: {
+         responsive: true,
+         legend: {display:false},
+         scales: {
+           yAxes: [{
+                    scaleLabel: {display: true, labelString: "Anzahl [-]"},
+                    ticks: {beginAtZero: true}
+                  }],
+         }
+       }
+    });
+</script>

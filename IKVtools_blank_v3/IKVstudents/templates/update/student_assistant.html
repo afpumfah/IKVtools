@@ -1,0 +1,32 @@
+<div class="card" id="hiwi">
+    <div class="card-header">
+        <h3 class="card-title">HiWi Tätigkeiten</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm">
+            <tr>
+                <th>Assistent</th>
+                <th>Status</th>
+                <th>Stunden</th>
+                <th>Kosten</th>
+                <th>Start</th>
+                <th>Ende</th>
+                <th>Löschen</th>
+            </tr>
+            {% for stas in student_assistant.forms %}
+            <tr>
+                {% for st in stas.visible_fields %}
+                <td>
+                {% if forloop.first %}
+                    {% for h in stas.hidden_fields %}
+                    {{h}}
+                    {% endfor %}
+                {% endif %}
+                {{st}}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>

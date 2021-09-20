@@ -1,0 +1,49 @@
+<script>
+    var ctx = document.getElementById("barChart");
+    var myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+           labels: ["Bedarf", "Finanziert"],
+           datasets: [
+               {
+                   label: 'HiWis',
+                   data: [{{students_need}}, 0],
+                   backgroundColor: ['#f56954', '#FFFFFF'],
+                   borderColor: ['rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },  
+               { 
+                   label: 'Grundausstattung',
+                   data: [0, {{assistant_budget}}],
+                   backgroundColor: ['#00a65a','#00a65a'],
+                   borderColor: ['rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },  
+                {  
+                   label: 'Öffentlich',
+                   data: [0, {{public_budget}}],
+                   backgroundColor: ['#f39c12','#f39c12'],
+                   borderColor: ['rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },  
+                {  
+                   label: 'Industrie',
+                   data: [0, {{industry_budget}}],
+                   backgroundColor: ['#00c0ef','#00c0ef'],
+                   borderColor: ['rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               }   
+           ]
+       },
+       options: {
+         responsive: true,
+         scales: {
+           xAxes: [{stacked: true}],
+           yAxes: [{
+                    stacked: true,
+                    scaleLabel: {display: true, labelString: "Kosten [€]"}
+                  }],
+         }
+       }
+    });
+</script>

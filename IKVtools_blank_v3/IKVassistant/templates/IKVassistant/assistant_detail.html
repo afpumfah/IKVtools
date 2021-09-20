@@ -1,0 +1,88 @@
+{% extends 'base_template.html' %}
+
+
+{% block sidebar_content %}
+    {% include 'IKVassistant/assistant_nav.html' %}
+{% endblock sidebar_content %}
+                    
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm">
+                    <h1 class="m-0 text-dark">Assistentendetails</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg">
+                    <div class="card">
+                        <div class="card-header card-success">
+                        <h5 class="m-0">{{object.firstname}} {{object.lastname}}</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-7 order-2 order-md-1">
+                                    <div class="row">
+                                        <div class="col-lg">
+                                            {% include 'detail/public_projects.html' %}
+                                        </div>
+                                    </div>
+                                    <div class="row my-3">
+                                        <div class="col-lg">
+                                            {% include 'detail/industry_projects.html' %}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg">
+                                            {% include 'detail/student_assistant.html' %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 order-1 order-md-2">
+                                    <h3>{{object.firstname}} {{object.lastname}}</h3>
+                                    {% if object.status == 'AC' %}
+                                        <span class="badge badge-success">{{object.get_status_display}}</span>
+                                    {% elif object.status == 'ALU'%}
+                                        <span class="badge bg-gray-dark">{{object.get_status_display}}</span>
+                                    {% else %}
+                                        <span class="badge badge-info">{{object.get_status_display}}</span>
+                                    {% endif %}
+                                    <div class="mt-3 text-muted">
+                                        <i class="fas fa-envelope"></i> {{object.email}} <br>
+                                        <i class="fas fa-phone-alt"></i> +49 241 80 - {{object.phone}}<br>
+                                        <i class="fas fa-birthday-cake"></i> {{object.birth}}
+                                    </div>
+                                    <div class="mt-5 text-muted">
+                                        <p>
+                                            Einstieg:
+                                            <b class="d-block">{{object.start}}</b>
+                                        </p>
+                                        <p>
+                                            Ausstieg:
+                                            <b class="d-block">{{object.end}}</b>
+                                        </p>
+                                    </div>
+                                    <h5 class="mt-5 text-muted">Dokumente</h5>
+                                    {% include 'detail/files.html' %}
+
+                                    <h5 class="mt-5 text-muted">Veröffentlichungen</h5>
+                                    {% include 'detail/publications.html' %}
+
+                                    <h5 class="mt-5 text-muted">Abschlussarbeiten</h5>
+                                    {% include 'detail/student_thesis.html' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+

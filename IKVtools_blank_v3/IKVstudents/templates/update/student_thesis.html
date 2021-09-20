@@ -1,0 +1,30 @@
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Abschlussarbeiten</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm">
+            <tr>
+                <th>Betreuer</th>
+                <th>Titel</th>
+                <th>Art der Arbeit</th>
+                <th>Erscheinungsdatum</th>
+                <th>Löschen</th>
+            </tr>
+            {% for thes in thesis.forms %}
+            <tr>
+                {% for th in thes.visible_fields %}
+                <td>
+                {% if forloop.first %}
+                    {% for h in thes.hidden_fields %}
+                    {{h}}
+                    {% endfor %}
+                {% endif %}
+                {{th}}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>

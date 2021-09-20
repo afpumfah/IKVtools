@@ -1,0 +1,25 @@
+<ul class="list-unstyled text-muted">
+{% if publications %}
+    {% for publication in publications %}
+        <li>
+            <p>
+                {% for assi in publication.assistant_id.all %} 
+                    <span style="font-variant:small-caps;">{{assi.lastname}}, {{assi.firstname.0}}.; </span>
+                {% endfor %}
+                {% for author in publication.author_id.all %}
+                    {% if not forloop.last %}
+                        <span style="font-variant:small-caps;">{{author.lastname}}, {{author.firstname.0}}.; </span>
+                    {% else %}
+                        <span style="font-variant:small-caps;">{{author.lastname}}, {{author.firstname.0}}.: </span>
+                    {% endif %}
+                {% endfor %}
+                {{publication.title}} 
+                ({{publication.release_date}}) - 
+                <i>{{publication.journal}}</i> ({{publication.get_status_display}})
+            </p>
+        </li>
+    {% endfor %}
+{% else %}
+Bisher keine Veröffentlichungen vorhanden
+{% endif %}
+</ul>

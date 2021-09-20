@@ -1,0 +1,17 @@
+{% if  public.status == 'ID' %}
+    <span class="badge bg-danger">{{public.get_status_display}}</span>
+{% elif public.status == 'CR' %}
+    <span class="badge bg-primary">{{public.get_status_display}}</span>
+{% elif public.status == 'GO' %}
+    <span class="badge bg-success">{{public.get_status_display}}</span>
+{% elif public.status == 'END' %}
+    <span class="badge bg-gray">{{public.get_status_display}}</span>
+{% elif public.status == 'DD' %}
+    <span class="badge bg-gray-dark">{{public.get_status_display}}</span>
+{% elif public.status == 'PL' %}
+    <span class="badge bg-warning">{{public.get_status_display}}</span>
+{% elif public.status == 'AC' %}
+    <span class="badge bg-olive">{{public.get_status_display}}</span>
+{% elif public.status == 'PO' %}
+    <span class="badge bg-maroon">{{public.get_status_display}}</span>
+{% endif %}

@@ -1,0 +1,47 @@
+    <li class="nav-header">
+            BEARBEITEN
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'IKVpublic:update' object.pk %}" class="nav-link">
+            <i class="nav-icon fas fa-edit"></i>
+            <p>Stammdaten</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'IKVpublic:update_file' object.pk %}" class="nav-link">
+            <i class="nav-icon fas fa-file"></i>
+            <p>Dokumente</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'IKVpublic:update_assistant' object.pk %}" class="nav-link">
+            <i class="nav-icon fas fa-user"></i>
+            <p>Mitarbeiter</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'IKVpublic:update_workpackage' object.pk %}" class="nav-link">
+            <i class="nav-icon fas fa-archive"></i>
+            <p>Arbeitspakete</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'IKVpublic:protocol' object.pk %}" class="nav-link">
+            <i class="nav-icon fas fa-file"></i>
+            <p>Protokoll</p>
+        </a>
+    </li>
+    <p></p>
+    <li class="nav-item">
+        {% if template_name == "_detail" %}
+        <a href="{% url 'IKVpublic:list' %}" class="nav-link">
+            <i class="nav-icon fas fa-chevron-left"></i>
+            <p>Zurück</p>
+        </a>
+        {% else %}
+        <a href="{% url 'IKVpublic:detail' object.pk%}" class="nav-link">
+            <i class="nav-icon fas fa-chevron-left"></i>
+            <p>Zurück</p>
+        </a>
+        {% endif %}
+    </li>

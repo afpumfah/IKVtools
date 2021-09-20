@@ -1,0 +1,27 @@
+{% load static %}
+<script src=" {% static 'plugins/googlegantt/gantt.js' %}"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['timeline']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var container = document.getElementById('chart_div');
+        var chart = new google.visualization.Timeline(container);
+        var dataTable = new google.visualization.DataTable();
+
+        dataTable.addColumn({ type: 'string', id: 'AP' });
+        dataTable.addColumn({ type: 'string', id: 'Name' });
+        dataTable.addColumn({ type: 'date', id: 'Start' });
+        dataTable.addColumn({ type: 'date', id: 'Ende' });
+        dataTable.addRows([
+          {% for wp in work_package %}
+          [ '{{forloop.counter}}', '{{wp.title}}', new Date('{{wp.start|date:'c'}}'), new Date('{{wp.end|date:'c'}}') ],
+          {% endfor %}
+        ]);
+
+        var options = {
+            backgroundColor: '#f8f9fa'
+        };
+
+        chart.draw(dataTable, options);
+      }
+  </script>

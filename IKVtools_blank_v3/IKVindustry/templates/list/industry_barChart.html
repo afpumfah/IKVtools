@@ -1,0 +1,47 @@
+<script>
+    var ctx = document.getElementById("barChart");
+    var myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+           labels: ['Vorjahr', 'Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+           datasets: [
+               {
+                   label: 'Beauftragt',
+                   data: [{{ prev_year_instruct|stringformat:"f" }},{% for i in instruct_month %}{{i|stringformat:"f"}},{% endfor %}],
+                   borderWidth: 1.5,
+                   borderColor: '#f56954',
+                   lineTension: 0,
+                   fill: false,
+                   type: 'line'
+               },
+               {
+                   label: 'Fakturiert',
+                   data: [0,{% for i in invoiced_month %}{{i|stringformat:"f"}},{% endfor %}],
+                   borderWidth: 1.5,
+                   borderColor: '#00a65a',
+                   lineTension: 0,
+                   fill: false,
+                   type: 'line'
+               },
+               {
+                   label: 'Vorjahr',
+                   data: [{{prev_year_invoiced|stringformat:"f"}}],
+                   borderWidth: 1,
+                   backgroundColor: ['#00c0ef'],
+                   borderColor: 'rgba(0,0,0,0.5)',
+                   lineTension: 0,
+                   fill: false
+               },
+           ]
+       },
+       options: {
+         responsive: true,
+         scales: {
+             yAxes: [{
+                 ticks: {beginAtZero: true},
+                 scaleLabel: {display:true, labelString: "Kosten [€]"}
+             }],
+         }
+       }
+    });
+</script>

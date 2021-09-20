@@ -1,0 +1,65 @@
+{% extends 'base_template.html' %}
+
+{% block sidebar_content %}
+    {% include 'IKVindustry/industry_nav.html' %}
+{% endblock sidebar_content %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm">
+                    <h1 class="m-0 text-dark">Projekt bearbeiten</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="row">
+                    <div class="col-lg">
+                        <div class="card card-outline card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Arbeitspake</h3>
+                            </div>
+                            <div class="card-body">
+                                <div style="display:none;">{{form.as_table}}</div>
+                                {{work_package.management_form}}
+                                <table class="table table-sm">
+                                    <tr>
+                                        <th>Bearbeiter</th>
+                                        <th>Teilschritt</th>
+                                        <th>Material</th>
+                                        <th>Personal</th>
+                                        <th>Fremdleistung</th>
+                                        <th>Teilschrittvolumen</th>
+                                        <th>Beauftragt am</th>
+                                        <th>Fakturiert am</th>
+                                        <th>Löschen</th>
+                                    </tr>
+                                    {% for workpackage in work_package.forms %}
+                                        <tr>
+                                            {% for wp in workpackage.visible_fields %}
+                                            <td>
+                                                {% if forloop.first %}
+                                                    {% for h in workpackage.hidden_fields %}
+                                                        {{h}}
+                                                    {% endfor %}
+                                                {% endif %}
+                                                {{wp}}
+                                            </td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Update">
+            </form>
+        </div>
+    </div>
+{% endblock content %}

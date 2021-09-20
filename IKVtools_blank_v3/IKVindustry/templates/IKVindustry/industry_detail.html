@@ -1,0 +1,177 @@
+{% extends 'base_template.html' %}
+
+{% block sidebar_content %}
+    {% include 'IKVindustry/industry_nav.html' %}
+{% endblock sidebar_content %}
+
+{% block content %}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm">
+                <h1 class="m-0 text-dark">Projektdetails</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg">
+                {% if object.released %}
+                <div class="card card-outline card-success">
+                {% else %}
+                <div class="card card-outline card-warning">
+                {% endif %}
+                    <div class="card-header">
+                        <h3 class="card-title">{{object.title}}</h3>
+                    </div>
+                    <div class="card-body" style="display: block;">
+                        <div class="row">
+                            <div class="col-md-8 order-2 order-md-1">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Gesamtvolumen</span>
+                                                <span class="info-box-number text-center text-muted mb-0"> {{object.sum_wp}} €</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Beauftragt</span>
+                                                <span class="info-box-number text-center text-muted mb-0"> {{object.sum_wp_instruct}} €</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Fakturiert</span>
+                                                <span class="info-box-number text-center text-muted mb-0"> {{object.sum_wp_invoiced}} €</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Status</span>
+                                                <span class="info-box-number text-center text-muted mb-0"> {{object.get_status_display}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-md-12">
+                                        <h4> Finanzielles </h4>
+                                    </div>
+                                    <div class="col-md-4 order-1">
+                                        <div class="info-box">
+                                            <span class="info-box-icon bg-maroon">AL</span>
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Verfügbares Budget:</span> <span class="info-box-number">{{object.al_budget_left}}€</span>
+                                                <span class="info-box-text text-sm text-muted">gesamt: {{object.al_budget}}€ <br> ausgegeben: {{object.al_budget_spent}}€</span>
+                                                <span class="info-box-text text-sm text-muted">Ende Buchhaltung: <b>{{object.finish_finance_al}}</b></span>
+                                            </div>
+                                        </div>
+                                        <div class="info-box">
+                                            <span class="info-box-icon bg-lightblue">A</span>
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Verfügbares Budget:</span> <span class="info-box-number">{{object.assi_budget_left}}€</span>
+                                                <span class="info-box-text text-sm text-muted">gesamt: {{object.assi_budget}}€ <br> ausgegeben: {{object.assi_budget_spent}}€</span>
+                                                <span class="info-box-text text-sm text-muted">Ende Buchhaltung: <b>{{object.finish_finance_a}}</b></span>
+                                            </div>
+                                        </div>
+                                        <div class="info-box">
+                                            <span class="info-box-icon bg-olive">S</span>
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Verfügbares Budget:</span> <span class="info-box-number">{{object.students_budget}}€</span>
+                                                <span class="info-box-text text-sm text-muted">Ende Buchhaltung: <b>{{object.finish_finance_s}}</b></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 order-2 order-md-2">
+                                    {% if object.released %}
+                                        <table class="table table-sm">
+                                            <tr>
+                                                <th>Beschreibung</th>
+                                                <th>Preis</th>
+                                                <th>Art</th>
+                                                <th>Hinzugefügt</th>
+                                            </tr>
+                                            {% for o in outgoings %}
+                                            <tr>
+                                                <td>{{o.description}}</td>
+                                                <td>{{o.price}} €</td>
+                                                <td>{{o.kind}}</td>
+                                                <td>{{o.added}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </table>
+                                    {% else %}
+                                        Projekt noch nicht freigegeben!
+                                    {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 order-1 order-md-2">
+                                {% include 'detail/industry_status.html' %}
+                                <p></p>
+                                <p class="text-muted">{{object.get_kind_display}}</p>
+                                <br>
+                                <div class="text-muted">
+                                    <p>
+                                        Firma
+                                        <b class="d-block">{{object.company}}</b>
+                                    </p>
+                                </div>
+                                <h5 class="mt-5 text-muted">Dokumente</h5>
+                                <dl class="row text-muted">
+                                    {% for f in files %}
+                                    <dt class="col-sm-3">{{f.description}}:</dt> <dd class="col-sm-9"><a class="text-secondary" href="{{f.file.url}}">{{ f.file}}</a></dd>
+                                    {% endfor %}
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-md-12">
+                                <h4> Arbeitspakete </h4>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-sm text-nowrap">
+                                        <tr>
+                                            <th>Titel</th>
+                                            <th>Bearbeiter</th>
+                                            <th>Fremdleistung</th>
+                                            <th>Personal</th>
+                                            <th>Material</th>
+                                            <th>Beauftragt am</th>
+                                            <th>Fakturiert am</th>
+                                            <th>Summe</th>
+                                        </tr>
+                                        {% for wp in work_package %}
+                                        <tr>
+                                            <td>{{wp.title}}</td>
+                                            <td>{{wp.assistant_id.lastname}}</td>
+                                            <td>{{wp.foreign|yesno:"Ja,Nein"}}</td>
+                                            <td>{{wp.staff}}</td>
+                                            <td>{{wp.material}}</td>
+                                            <td>{{wp.instruct_at|default_if_none:"-"}}</td>
+                                            <td>{{wp.invoiced_at|default_if_none:"-"}}</td>
+                                            <td>{{wp.price}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

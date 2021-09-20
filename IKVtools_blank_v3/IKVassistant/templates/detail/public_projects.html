@@ -1,0 +1,48 @@
+<div class="card card-outline card-maroon">
+    <div class="card-header">
+        <h5 class="text text-maroon disabled"> Öffentliche Projekte </h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>FA-Nummer</th>
+                        <th>Kurztitel</th>
+                        <th>Start</th>
+                        <th>Ende</th>
+                        <th>Status </th>
+                    </tr>
+                    {% for pub in public_projects %}
+                    <tr>
+                        <td><a class="text text-maroon" href="{% url 'IKVpublic:detail' pub.project_id.pk %}">{{pub.project_id.fanr}}</a></td>
+                        <td>{{pub.project_id.short_title}}</td>
+                        <td>{{pub.project_id.start|date:"d.m.Y"}}</td>
+                        <td>{{pub.project_id.end|date:"d.m.Y"}}</td>
+                        <td>
+                                {% if pub.project_id.status == "ID" %}
+                                <span class="badge badge-danger">{{pub.project_id.get_status_display}}</span>
+                                {% elif pub.project_id.status == "CR" %}
+                                <span class="badge badge-primary">{{pub.project_id.get_status_display}}</span>
+                                {% elif pub.project_id.status == "GO" %}
+                                <span class="badge badge-success">{{pub.project_id.get_status_display}}</span>
+                                {% elif pub.project_id.status == "END" %}
+                                <span class="badge bg-gray">{{pub.project_id.get_status_display}}</span>
+                                {% elif pub.project_id.status == "DD" %}
+                                <span class="badge bg-dark">{{pub.project_id.get_status_display}}</span>
+                                {% elif pub.project_id.status == "PL" %}
+                                <span class="badge bg-orange">{{pub.project_id.get_status_display}}</span>
+                                {% elif pub.project_id.status == "PO" %}
+                                <span class="badge bg-primary">{{pub.project_id.get_status_display}}</span>
+                                {% else %}
+                                <span class="badge bg-success">{{pub.project_id.get_status_display}}</span>
+                                {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    

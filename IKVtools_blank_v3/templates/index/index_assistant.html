@@ -1,0 +1,16 @@
+{% if birth %}
+<div class="btn-group">
+    <button type="button" data-toggle="dropdown" class="btn"> 
+        <i class="fas fa-birthday-cake fa-2x"></i>
+        <span class="badge badge-danger ">{{birth|length}}</span>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right" role="menu"> 
+        <b class="text text-muted px-2">Geburtstage diesen Monat:</b>
+        <div class="dropdown-divider"></div>
+        {% for assi in birth %}
+        <span class="dropdown-item">{{assi.firstname}} {{assi.lastname}} - {{assi.birth|date:"d.m.Y"}}</span>
+        <div class="dropdown-divider"></div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

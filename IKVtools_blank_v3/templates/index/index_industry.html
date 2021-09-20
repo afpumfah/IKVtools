@@ -1,0 +1,47 @@
+<div class="card card-lightblue">
+    <div class="card-header">
+        <h5 class="m0"><i class="fas fa-industry"></i> Industrieprojekte</h5>
+    </div>
+    <div class="card-body">
+        <h5 class="mt">Angelegt</h5>
+        <p class="text text-sm text-muted"> Der Assistent des ersten Teilschritts ist hier der Bearbeiter</p>
+        {% if planned_industry %}
+        <table class="table table-sm">
+            <tr>
+                <th>Bearbeiter</th>
+                <th>Kurztitel</th>
+                <th>Firma</th>
+            </tr>
+            {% for ind in planned_industry %}
+            <tr>
+                <td>{% for wp in ind.workpackage_set.all %}{% if forloop.first %}{{wp.assistant_id}}{% endif %}{% endfor %}</td>
+                <td><a class="text text-lightblue" href="{% url 'IKVindustry:detail' ind.pk %}">{{ind.short_title}}</a></td>
+                <td>{{ind.company}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            <i class="text text-muted">Derzeit kein angelegtes Industrieporjekt.</i>
+        {% endif %}
+
+        <h5 class="mt-5">Ende Buchhaltung (nächsten Monat)</h5>
+        {% if end_finance %}
+        <table class="table table-sm">
+            <tr>
+                <th>Bearbeiter</th>
+                <th>Kurztitel</th>
+                <th>Firma</th>
+            </tr>
+            {% for ind in end_finance %}
+            <tr>
+                <td>{% for wp in ind.workpackage_set.all %}{% if forloop.first %}{{wp.assistant_id}}{% endif %}{% endfor %}</td>
+                <td><a class="text text-lightblue" href="{% url 'IKVindustry:detail' ind.pk %}">{{ind.short_title}}</a></td>
+                <td>{{ind.company}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            <i class="text text-muted">Kein Projekt, das nächsten Monat ausläuft</i>
+        {% endif %}
+    </div>
+</div>

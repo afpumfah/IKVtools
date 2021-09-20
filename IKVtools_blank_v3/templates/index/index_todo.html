@@ -1,0 +1,23 @@
+{% if todo %}
+<div class="btn-group h1">
+    <button type="button" data-toggle="dropdown" class="btn"> 
+        <i class="far fa-check-circle fa-2x"></i>
+        <span class="badge badge-danger ">{{todo|length}}</span>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right" role="menu"> 
+        <b class="text text-muted mx-2">ToDo</b>
+        <div class="dropdown-divider"></div>
+        {% for do in todo %}
+        <div class="form-check">
+            <input class="form-check-input mx-1" type="checkbox" name="{{do.pk}}" onchange="window.location.href='?done={{do.pk}}'">
+            <label class="form-check-label mx-1" for="{{do.pk}}">
+                <a href="{% url 'IKVprotocol:update' do.protocol_id.pk %}" class="dropdown-item">
+                    {{do.assistant_id}}: {{do.title}} - {{do.duedate|date:"d.m.Y"}}
+                </a>
+            </label>
+        </div>
+        <div class="dropdown-divider"></div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

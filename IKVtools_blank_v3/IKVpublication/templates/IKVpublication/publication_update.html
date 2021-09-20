@@ -1,0 +1,138 @@
+{% extends 'base_template.html' %}
+
+{% block sidebar_content %}
+
+{% endblock sidebar_content %}
+
+{% block content %}
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm">
+            <h1 class="m-0 text-dark">Veröffentlichungen</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl">
+                    <div class="row">
+                        <div class="col-xl-7">
+                            <div class="card card-lightblue">
+                                <div class="card-header">
+                                    <h5 class="m-0"><i class="fas fa-table"></i> Übersicht Studenten</h5>
+                                </div>
+                                <div class="card-body">
+                                    {% if messages %}
+                                    {% for msg in messages %} 
+                                    {% if msg.tags == 'delete warning' %}
+                                    <div class="alert bg-maroon alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <h5><i class="icon fas fa-times"></i> Veröffentlichung gelöscht</h5>
+                                        {% autoescape off %}{{msg}}{% endautoescape %}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                    <table id="overview" class="table table-sm table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Assistent</th>
+                                                <th>Projekt</th>
+                                                <th>Titel</th>
+                                                <th>Journal</th>
+                                                <th>Status</th>
+                                                <th>Erschienen</th>
+                                                <th>Löschen</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for public in publication %}
+                                            <tr>
+                                                <td> 
+                                                {% for assi in public.assistant_id.all %} 
+                                                    {% if not forloop.last %}
+                                                        {{assi.lastname|default_if_none:"-" }}, 
+                                                    {% endif %}
+                                                    {% if forloop.last %} 
+                                                        {{assi.lastname|default_if_none:"-" }} 
+                                                    {% endif %} 
+                                                {% endfor %}
+                                                </td>
+                                                <td> {{public.publicproject_id|default_if_none:"-"}}</td>
+                                                <td> <a style="color:#3c8dbc" href="{% url 'IKVpublication:update' public.pk %}">{{public.title}}</a></td>
+                                                <td> {{public.journal}}</td>
+                                                <td> {{public.get_status_display}}</td>
+                                                <td> {{public.release_date}}</td>
+                                                <td align="center"> <a href="?id={{public.pk}}"><h5><i class="icon fas fa-times-circle" style="color:#d81b60"></i></h5></a>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-5">
+                            <div class="card card-olive">
+                                <div class="card-header">
+                                    <h5 class="m-0"><i class="fas fa-file-alt"> </i> Weitere Veröffentlichung hinzufügen</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                                        <dl class="row">
+                                        {% for f in form %}
+                                            <dt class="col-sm-3">{{f.label}}</dt> <dd class="col-sm-9">{{f}}</dd>
+                                        {% endfor %}
+                                        </dl>
+                                        <input type="submit" class="btn bg-olive" value="Update">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+<style>
+.page-item.active .page-link {
+    background-color: #3c8dbc !important;
+    border: 1px solid #ced4da;
+}
+</style>
+
+{% load static %}
+<script src=" {% static 'plugins/datatables/jquery.dataTables.min.js' %} "></script>
+<script src=" {% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %} "></script>
+<script src=" {% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src=" {% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#overview').DataTable({
+      "responsive": true,
+      "autoWidth": false,
+      "lengthChange": false,
+      "pageLength": 10,
+      "language": {
+            "lengthMenu": "_MENU_ Einträge pro Seite",
+            "zeroRecords": "Nichts gefunden",
+            "info": "Seite _PAGE_ von _PAGES_",
+            "infoEmpty": "Keine Einträge vorhanden",
+            "infoFiltered": "(gefilterte Einträge von insgesamt _MAX_ Einträgen)",
+            "search": "Suche",
+            "paginate": {
+                "previous": "Zurück",
+                "next": "Vor"
+            }
+        }
+    });
+  });
+</script>
+{% endblock scripts %}

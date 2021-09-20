@@ -1,0 +1,61 @@
+<div class="card card-maroon">
+    <div class="card-header">
+        <h5 class="m-0"><i class="fas fa-file"></i> Veröffentlichungen</h5>
+    </div>
+    <div class="card-body">
+        <h5>Geplant</h5>
+        <p class="text text-muted">Bei geplanten VÖs ist das Erscheindungsdatum das AL-Datum. Der Bearbeiter ist immer der erste Autor</p>
+        {% if planned_publications %}
+        <table class="table table-sm">
+            <tr>
+                <th>Bearbeiter</th>
+                <th>Titel</th>
+                <th>Art</th>
+                <th>AL-Datum</th>
+            </tr>
+            {% for pub in planned_publications %}
+            {% if pub.release_date > current_month %}
+            <tr>
+                <td>{{pub.assistant_id.all.0}}</td>
+                <td><a class="text text-maroon" href="{% url 'IKVpublication:update' pub.pk %}">{{pub.title}}</a></td>
+                <td>{{pub.get_reviewed_display}}</td>
+                <td>{{pub.release_date|date:"d.m.Y"}}</td>
+            </tr>
+            {% else %}
+            <tr class="bg-gray-light">
+                <td>{{pub.assistant_id.all.0}}</td>
+                <td><a class="text text-danger" href="{% url 'IKVpublication:update' pub.pk %}">{{pub.title}}</a></td>
+                <td>{{pub.get_reviewed_display}}</td>
+                <td>{{pub.release_date|date:"d.m.Y"}}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+        {% else %}
+        <i class="text text-muted">Derzeit keine Veröffentlichungen geplant.</i>
+        {% endif %}
+
+        <h5 class="mt-5">Eingereicht</h5>
+        <p class="text text-muted">Bei eingereichten VÖs ist das Erscheinungsdatum das Datum der Einreichung. Der Bearbeiter ist immer der erste Autor</p> 
+        {% if registered_publications %}
+        <table class="table table-sm">
+            <tr>
+                <th>Bearbeiter</th>
+                <th>Titel</th>
+                <th>Art</th>
+                <th>AL-Datum</th>
+            </tr>
+            {% for pub in registered_publications %}
+            <tr>
+                <td>{{pub.assistant_id.all.0}}</td>
+                <td><a class="text text-maroon" href="{% url 'IKVpublication:update' pub.pk %}">{{pub.title}}</a></td>
+                <td>{{pub.get_reviewed_display}}</td>
+                <td>{{pub.release_date|date:"d.m.Y"}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <i class="text text-muted">Derzeit keine Veröffentlichungen eingereicht.</i>
+        {% endif %}
+    </div>
+</div>

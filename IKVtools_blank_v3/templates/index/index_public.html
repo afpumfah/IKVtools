@@ -1,0 +1,109 @@
+<div class="card card-info">
+    <div class="card-header">
+        <h5 class="m0"><i class="fas fa-university"></i> Öffentliche Projekte</h5>
+    </div>
+    <div class="card-body">
+        <h5 class="mt">Geplant</h5>
+        {% if planned_public_projects %}
+        <table class="table table-sm">
+            <tr>
+                <th>Geldgeber</th>
+                <th>Bearbeiter</th>
+                <th>Kurztitel</th>
+                <th>AL-Datum</th>
+                <th>GL-Datum</th>
+            </tr>
+            {% for pub in planned_public_projects %}
+            {% if pub.al_date.month > current_month %}
+            <tr>
+                <td>{{pub.financier}}</td>
+                <td>{% for assi in pub.publicassistant_set.all %}{{assi.assistant_id.lastname}}{% endfor %}</td>
+                <td><a class="text text-info" href="{% url 'IKVpublic:detail' pub.pk %}">{{pub.short_title}}</a></td>
+                <td>{{pub.al_date|date:"d.m.Y"}}</td>
+                <td>{{pub.gl_date|date:"d.m.Y"}}</td>
+            </tr>
+            {% else %}
+            <tr class="bg-gray-light">
+                <td>{{pub.financier}}</td>
+                <td>{% for assi in pub.publicassistant_set.all %}{{assi.assistant_id.lastname}}{% endfor %}</td>
+                <td><a class="text text-info" href="{% url 'IKVpublic:detail' pub.pk %}">{{pub.title}}</a></td>
+                <td>{{pub.al_date|date:"d.m.Y"}}</td>
+                <td>{{pub.gl_date|date:"d.m.Y"}}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+        {% else %}
+        <i class="text text-muted">Derzeit keine Anträge geplant</i>
+        {% endif %}
+
+        <h5 class="mt-5">Umlauf</h5>
+        {% if post_al_public_projects %}
+        <table class="table table-sm">
+            <tr>
+                <th>Geldgeber</th>
+                <th>Bearbeiter</th>
+                <th>Kurztitel</th>
+                <th>AL-Datum</th>
+                <th>GL-Datum</th>
+            </tr>
+            {% for pub in post_al_public_projects %}
+            <tr>
+                <td>{{pub.financier}}</td>
+                <td>{% for assi in pub.publicassistant_set.all %}{{assi.assistant_id.lastname}}{% endfor %}</td>
+                <td><a class="text text-info" href="{% url 'IKVpublic:detail' pub.pk %}">{{pub.short_title}}</a></td>
+                <td>{{pub.al_date|date:"d.m.Y"}}</td>
+                <td>{{pub.gl_date|date:"d.m.Y"}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <i class="text text-muted">Derzeit keine Anträge im Umlauf</i>
+        {% endif %}
+
+        <h5 class="mt-5">Eingereicht</h5>
+        <p class="text text-sm text-muted">Bei eingereichten Projekten ist das AL-Datum das Datum der Einreichung</p>
+        {% if registered_public_projects %}
+        <table class="table table-sm">
+            <tr>
+                <th>Geldgeber</th>
+                <th>Bearbeiter</th>
+                <th>Kurztitel</th>
+                <th>Datum</th>
+            </tr>
+            {% for pub in registered_public_projects %}
+            <tr>
+                <td>{{pub.financier}}</td>
+                <td>{% for assi in pub.publicassistant_set.all %}{{assi.assistant_id.lastname}}{% endfor %}</td>
+                <td><a class="text text-info" href="{% url 'IKVpublic:detail' pub.pk %}">{{pub.short_title}}</a></td>
+                <td>{{pub.al_date|date:"d.m.Y"}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <i class="text text-muted">Derzeit keine Anträge eingereicht</i>
+        {% endif %}
+
+        <h5 class="mt-5">Bewilligt</h5>
+        {% if accepted_public_projects %}
+        <table class="table table-sm">
+            <tr>
+                <th>Geldgeber</th>
+                <th>Bearbeiter</th>
+                <th>Kurztitel</th>
+                <th>Startdatum</th>
+            </tr>
+            {% for pub in accepted_public_projects %}
+            <tr>
+                <td>{{pub.financier}}</td>
+                <td>{% for assi in pub.publicassistant_set.all %}{{assi.assistant_id.lastname}}{% endfor %}</td>
+                <td><a class="text text-info" href="{% url 'IKVpublic:detail' pub.pk %}">{{pub.short_title}}</a></td>
+                <td>{{pub.start|date:"d.m.Y"}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <i class="text text-muted">Derzeit keine Anträge bewilligt</i>
+        {% endif %}
+    </div>
+</div>

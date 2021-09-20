@@ -1,0 +1,24 @@
+<ul class="list-unstyled text-muted">
+{% if thesis %}
+    {% for th in thesis %}
+        <li>
+            <p>
+                <span style="font-variant:small-caps;">{{th.student_id.lastname}}, {{th.student_id.firstname.0}}.: </span>
+                {{th.title}} 
+                ({{th.release_date}}) - 
+                <i>Unveröffentlichte {{th.get_type_display}}</i>,
+                Betreuer: 
+                {% for supervisor in th.supervisor_id.all %} 
+                    {% if forloop.last %}
+                        {{supervisor.firstname}} {{supervisor.lastname}}
+                    {% else %}
+                        {{supervisor.firstname}} {{supervisor.lastname}},
+                    {% endif %}
+                {% endfor %}
+            </p>
+        </li>
+    {% endfor %}
+{% else %}
+Bisher keine Arbeiten betreut
+{% endif %}
+</ul>

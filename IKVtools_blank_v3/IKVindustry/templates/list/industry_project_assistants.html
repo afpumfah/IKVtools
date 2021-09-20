@@ -1,0 +1,5 @@
+{% for assi in industry.workpackage_set.all %}
+    {% ifchanged  %}
+    {{assi.assistant_id}} <br>
+    {% endifchanged %}
+{% endfor %}

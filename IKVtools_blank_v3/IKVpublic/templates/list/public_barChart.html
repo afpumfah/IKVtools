@@ -1,0 +1,28 @@
+<script>
+    var ctx = document.getElementById("barChart");
+    var myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+           labels: [{% for f,i in financier.items %}'{{f}}',{% endfor %}],
+           datasets: [
+               {
+                   label: 'öffentliche Projekte',
+
+                   data: [{% for f,i in financier.items %}'{{i.0|stringformat:"f"}}',{% endfor %}],
+                   backgroundColor: [{% for f,i in financier.items %}'{{i.1}}',{% endfor %}],
+                   borderColor: [{% for f,i in financier.items %}'rgba(0,0,0,.5)',{% endfor %}],
+                   borderWidth: 1,
+               },  
+           ]
+       },
+       options: {
+         legend: {display:false},
+         responsive: true,
+         scales: {
+             yAxes: [{
+                 ticks: {beginAtZero: true}
+             }]
+         }
+       }
+    });
+</script>

@@ -1,0 +1,7 @@
+{% for assi in public.publicassistant_set.all %}
+    {% if not forloop.last %}
+        {{assi.assistant_id}},
+    {% else %}
+        {{assi.assistant_id}}
+    {% endif %}
+{% endfor %}

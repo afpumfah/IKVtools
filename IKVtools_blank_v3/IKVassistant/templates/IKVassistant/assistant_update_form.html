@@ -1,0 +1,58 @@
+{% extends 'base_template.html' %}
+
+{% block sidebar_content %}
+    <li class="nav-header">
+        BEARBEITEN
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'IKVassistant:update' object.pk %}" class="nav-link">
+            <i class="nav-icon fas fa-edit"></i>
+            <p>Bearbeiten</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'IKVassistant:update_files' object.pk %}" class="nav-link">
+            <i class="nav-icon fas fa-file"></i>
+            <p>Dokumente</p>
+        </a>
+    </li>
+    <p></p>
+    <li class="nav-item">
+        <a href="{% url 'IKVassistant:detail' object.pk%}" class="nav-link">
+            <i class="nav-icon fas fa-chevron-left"></i>
+            <p>Zurück</p>
+        </a>
+    </li>
+{% endblock sidebar_content %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm">
+                    <h1 class="m-0 text-dark">Mitarbeiter bearbeiten</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="row">
+                    <div class="col-lg">
+                        <div class="card card-outline card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Stammdaten</h3>
+                            </div>
+                            <div class="card-body">
+                                {{form.as_table}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Update" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+{% endblock content %}

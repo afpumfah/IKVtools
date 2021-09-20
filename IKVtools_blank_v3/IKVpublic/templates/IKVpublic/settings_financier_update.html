@@ -1,0 +1,164 @@
+{% extends 'base_template.html' %}
+
+{% block sidebar_content %}
+    <li class="nav-header">
+        ÖFFENTLICHE PROJEKTE
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'IKVpublic:settings_financier' %}" class="nav-link">
+            <i class="nav-icon fas fa-euro-sign"></i>
+            <p>Geldgeber</p>
+        </a>
+    </li>
+    <li class="nav-header">
+        VERÖFFENTLICHUNG
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'IKVpublication:settings_author' %}" class="nav-link">
+            <i class="nav-icon fas fa-user-plus"></i>
+            <p>Weitere Autoren</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'IKVpublication:settings_journal' %}" class="nav-link">
+            <i class="nav-icon fas fa-newspaper"></i>
+            <p>Journals</p>
+        </a>
+    </li>
+    <li class="nav-header">
+        STUDENTEN
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'IKVstudents:settings_meanprice' %}" class="nav-link">
+            <i class="nav-icon fas fa-users"></i>
+            <p>Studentenpreise</p>
+        </a>
+    </li>
+{% endblock sidebar_content %}
+
+{% block content %}
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm">
+            <h1 class="m-0 text-dark">Einstellung - Öffentliche Projekte</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl">
+                    <div class="row">
+                        <div class="col-xl-7">
+                            <div class="card card-lightblue">
+                                <div class="card-header">
+                                    <h5 class="card-title m-0"><i class="fas fa-table"></i> Übersicht Geldgeber</h5>
+                                </div>
+                                <div class="card-body">
+                                    {% if messages %}
+                                    {% for msg in messages %} 
+                                    {% if msg.tags == 'delete warning' %}
+                                    <div class="alert bg-maroon alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <h5><i class="icon fas fa-times"></i> Geldgeber gelöscht</h5>
+                                        {% autoescape off %}{{msg}}{% endautoescape %}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                    <table id="overview" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Geldgeber</th>
+                                                <th>Logo</th>
+                                                <th>Farbe</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% load static %}
+                                        {% for fin in financier %}
+                                            <tr>
+                                                <td> <a style="color:#3c8dbc" href="{% url 'IKVpublic:settings_financier_update' fin.pk %}"> {{fin.name}} </a></td>
+                                                <td style="text-align:center"> <img src="{{fin.image.url}}"></td>
+                                                <td style="text-align:center"> <b style="color:{{fin.color}}">{{fin.name}}</b> </td>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-5">
+                            <div class="card card-olive">
+                                <div class="card-header">
+                                    <h5 class="card-title m-0"><i class="fas fa-euro-sign"></i> Weiteren Geldgeber hinzufügen</h5>
+                                </div>
+                                <div class="card-body">
+                                    {% if messages %}
+                                    {% for message in messages %}
+                                    {% if message.tags == 'created success' %}
+                                    <div class="alert bg-olive alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <h5><i class="icon fas fa-check"></i> Geldgeber erstellt</h5>
+                                        {% autoescape off %}{{message}}{% endautoescape %}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                                        <dl class="row">
+                                        {% for f in form %}
+                                            <dt class="col-sm-3">{{f.label}}</dt> <dd class="col-sm-9">{{f}}</dd>
+                                        {% endfor %}
+                                        </dl>
+                                        <input type="submit" class="btn bg-olive d-flex ml-auto" value="Ändern">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+<style>
+.page-item.active .page-link {
+    background-color: #3c8dbc !important;
+    border: 1px solid #ced4da !important;
+}
+</style>
+{% load static %}
+<script src=" {% static 'plugins/datatables/jquery.dataTables.min.js' %} "></script>
+<script src=" {% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %} "></script>
+<script src=" {% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src=" {% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src=" {% static 'plugins/chart.js/Chart.min.js' %} "></script>
+
+<script>
+  $(function () {
+    $('#overview').DataTable({
+      "responsive": true,
+      "autoWidth": false,
+      "lengthChange": false,
+      "pageLength": 10,
+      "language": {
+            "lengthMenu": "_MENU_ Einträge pro Seite",
+            "zeroRecords": "Nichts gefunden",
+            "info": "Seite _PAGE_ von _PAGES_",
+            "infoEmpty": "Keine Einträge vorhanden",
+            "infoFiltered": "(gefilterte Einträge von insgesamt _MAX_ Einträgen)",
+            "search": "Suche",
+            "paginate": {
+                "previous": "Zurück",
+                "next": "Vor"
+            }
+        }
+    });
+  });
+</script>
+{% endblock scripts %}

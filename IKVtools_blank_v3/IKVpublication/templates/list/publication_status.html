@@ -1,0 +1,7 @@
+{% if public.status == 'CR' %}
+    <span class="badge bg-primary">{{public.get_status_display}}</span>
+{% elif public.status == 'GO' %}
+    <span class="badge bg-success">{{public.get_status_display}}</span>
+{% elif public.status == 'PL' %}
+    <span class="badge bg-warning">{{public.get_status_display}}</span>
+{% endif %}

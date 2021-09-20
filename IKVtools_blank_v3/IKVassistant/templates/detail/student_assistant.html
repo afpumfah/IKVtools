@@ -1,0 +1,31 @@
+<div class="card card-outline card-olive">
+    <div class="card-header">
+        <h5 class="text text-olive disabled"> HiWis </h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th>Nachname</th>
+                    <th>Vorname</th>
+                    <th>Art</th>
+                    <th>Stunden</th>
+                    <th>Preis</th>
+                    <th>Start</th>
+                    <th>Ende</th>
+                </tr>
+                {% for stud in student_assistant %}
+                <tr>
+                    <td><a class="text text-olive" href="{% url 'IKVstudents:update' stud.student_id.pk %}">{{stud.student_id.lastname}}</a></td>
+                    <td>{{stud.student_id.firstname}}</td>
+                    <td>{{stud.status}}</td>
+                    <td>{{stud.hours}}</td>
+                    <td>{{stud.price}}</td>
+                    <td>{{stud.start|date:"d.m.Y"}}</td>
+                    <td>{{stud.end|date:"d.m.Y"}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>

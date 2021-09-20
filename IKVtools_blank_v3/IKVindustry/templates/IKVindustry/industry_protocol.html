@@ -1,0 +1,69 @@
+{% extends 'base_template.html' %}
+
+{% block sidebar_content %}
+    {% include 'IKVindustry/industry_nav.html' %}
+{% endblock sidebar_content %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm">
+                    <h1 class="m-0 text-dark">Protokolle</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="row">
+                    <div class="col-lg">
+                        <div class="timeline">
+                            {% for p in protocol %}
+                            <div class="time-label">
+                                <span class="bg-lightblue">{{p.date}}</span>
+                            </div>
+                            <div>
+                                <i class="fas fa-file"></i>
+                                <div class="timeline-item">
+                                    <a class="time" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="tl_{{p.pk}}" href="#tl_{{p.pk}}"><i class="fas fa-plus"></i></a>
+                                    <h3 class="timeline-header"><a href="{% url 'IKVprotocol:update' p.pk %}">{{p.title}}</a></h3>
+                                    {% if forloop.first %}
+                                    <div class="collapse-show" id="tl_{{p.pk}}">
+                                    {% else %}
+                                    <div class="collapse" id="tl_{{p.pk}}">
+                                    {% endif %}
+                                        <div class="timeline-body m-2">
+                                            Ort: {{p.place}} <br>
+                                            Teilnehmer: {% for assis in p.assistant_id.all %}{{assis}},{% endfor %}
+                                            <p>
+                                                {% autoescape off %}
+                                                {{p.content}}
+                                                {% endautoescape %}
+                                            </p>
+                                            <p>
+                                                {% if p.todo_set.all %}
+                                                    <b>ToDo</b><br>
+                                                    {% for to in p.todo_set.all %}
+                                                        {{to.assistant_id}}: {{to.title}} - {{to.duedate}} ({{to.done}})
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                        <div class="timeline-footer m-2">
+                                            <input class="btn btn-primary mb-2" type="submit" value="PDF">
+                                            <input class="btn btn-primary mb-2" type="submit" value="Senden">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

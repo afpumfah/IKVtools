@@ -1,0 +1,170 @@
+{% extends 'base_template.html' %}
+
+{% block sidebar_content %}
+    {% include 'IKVpublic/public_nav.html' %}
+{% endblock sidebar_content %}
+
+{% block content %}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg">
+                <h1 class="m-0 text-dark">Projektdetails</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg">
+                {% include 'detail/public_outline_header.html' %}
+                    <div class="card-header">
+                        <h5 class="m-0">{{object.title}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8 order-2 order-md-1">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Anzahl Stellen</span>
+                                                <span class="info-box-number text-center text-muted mb-0"> {{object.funded_position}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Anzahl HiWis</span>
+                                                <span class="info-box-number text-center text-muted mb-0"> {{object.funded_students}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Laufzeit</span>
+                                                <span class="info-box-number text-center text-muted mb-0"> {{optime}} Monate</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Anzahl Publikationen</span>
+                                                <span class="info-box-number text-center text-muted mb-0"> {{nr_publication}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row my-3">
+                                    <h4>Inhalte</h4>
+                                    <div class="row">
+                                        <div class="col-md-4 text text-sm text-justify">
+                                            {% autoescape off %}
+                                                {{object.summary}}
+                                            {% endautoescape %}
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                {% if work_package %}
+                                                <div class="col-md-12 px-3">
+                                                    <div id="chart_div" style="height:600px"></div>
+                                                    {% include 'detail/gantt.html' %}
+                                                </div>
+                                                {% else %}
+                                                <div class="col-md-12 px-3">
+                                                    Noch kein Arbeitspaket vorhanden
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                    
+                                <div class="row my-3">
+                                    <h4>Bearbeiter</h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm">
+                                            <tr>
+                                                <th>Assistent</th>
+                                                <th>Start</th>
+                                                <th>Ende</th>
+                                            </tr>
+                                            {% for assi in assistant %}
+                                            <tr>
+                                                <td>{{assi.assistant_id}}</td>
+                                                <td>{{assi.start}}</td>
+                                                <td>{{assi.end}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 order-1 order-md-2">
+                                <h3>{{object.short_title}} - FA {{object.fanr}}</h3>
+                                {% load static %}
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-4 order-2">
+                                            {% include 'detail/public_financier_logo.html' %}
+                                        </div>
+                                        <div class="col-md-8 order-1">
+                                            {% include 'detail/public_status.html' %}
+                                            <div class="text-muted my-3">
+                                                <p>
+                                                    Förderkennzeichen: 
+                                                    <b class="d-block">{{object.project_number}}</b>
+                                                </p>
+                                                <p>
+                                                    Start:
+                                                    <b class="d-block">{{object.start}}</b>
+                                                </p>
+                                                <p>
+                                                    Ende:
+                                                    <b class="d-block">{{object.end}}</b>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h5 class="mt-5 text-muted">Dokumente</h5>
+                                            <dl class="row text-muted">
+                                                {% for f in files %}
+                                                <dt class="col-sm-3">{{f.description}}:</dt> <dd class="col-sm-9"><a class="btn-link text-secondary" href="{{f.file.url}}">{{f.file}}</a></dd>
+                                                {% endfor %}
+                                            </dl>
+                                            <h5 class="mt-5 text-muted">Veröffentlichungen</h5>
+                                            <ul class="list-unstyled text-muted">
+                                                {% for publication in publications %}
+                                                <p>
+                                                    <li>
+                                                        {% for assi in publication.assistant_id.all %} 
+                                                        {% if not forloop.last %}
+                                                        <span style="font-variant:small-caps;">{{assi.lastname}}, {{assi.firstname.0}}.;</span>
+                                                        {% else %} 
+                                                        <span style="font-variant:small-caps;">{{assi.lastname}}, {{assi.firstname.0}}.:</span>
+                                                        {% endif %} 
+                                                        {% endfor %} 
+                                                        {{publication.title}}
+                                                        ({{publication.release_date}}) - 
+                                                        <i>{{publication.journal}}</i>
+                                                    </li>
+                                                </p>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

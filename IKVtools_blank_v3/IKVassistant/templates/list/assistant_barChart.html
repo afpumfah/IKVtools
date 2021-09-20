@@ -1,0 +1,109 @@
+<script>
+    var ctx = document.getElementById("barChart");
+    var myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+           labels: [{% for f,i in financier.items %}'{{f}}',{% endfor %} 'Summe', 'Bedarf',],
+           datasets: [
+               {
+                   label: 'öffentliche Projekte',
+                   data: [{% for f,i in financier.items %}'{{i.0|stringformat:"f"}}',{% endfor %} '{{sum_financed|stringformat:"f"}}', '{{fin_assistant|stringformat:"f"}}'],
+                   backgroundColor: [{% for f,i in financier.items %}'{{i.5}}',{% endfor %} '#00AC5B', '#00AC5B'],
+                   borderColor: [{% for f,i in financier.items %}'rgba(0,0,0,.5)',{% endfor %} 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },
+           ]
+       },
+       options: {
+         legend: {display:false},
+         responsive: true,
+         scales: {
+             xAxes: [{stacked:true}],
+             yAxes: [{
+                 stacked:true,
+                 ticks: {beginAtZero: true}
+             }]
+         }
+       }
+    });
+</script>
+
+<script>
+    var ctx = document.getElementById("barChart-detail");
+    var myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+           labels: [{% for f,i in financier.items %}'{{f}}',{% endfor %} 'Summe', 'Bedarf'],
+           datasets: [
+               {
+                   label: 'Gesamtbedarf',
+                   data: [{% for f,i in financier.items %} 0,{% endfor %} '{{sum_financed|stringformat:"f"}}', 0],
+                   backgroundColor: [{% for f,i in financier.items %}'#00AC5B', {% endfor %} '#00AC5B', '#00AC5B'],
+                   borderColor: [{% for f,i in financier.items %}'rgba(0,0,0,.5)',{% endfor %} 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },
+               {
+                   label: 'Aktiv',
+                   data: [{% for f,i in financier.items %} 0,{% endfor %} 0, '{{AC|stringformat:"f"}}'],
+                   backgroundColor: [{% for f,i in financier.items %}'#00AC5B',{% endfor %} '#00AC5B', '#00AC5B'],
+                   borderColor: [{% for f,i in financier.items %}'rgba(0,0,0,.5)',{% endfor %} 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },
+               {
+                   label: 'Geplant',
+                   data: [{% for f,i in financier.items %} 0,{% endfor %} 0, '{{PL|stringformat:"f"}}'],
+                   backgroundColor: [{% for f,i in financier.items %}'#F39C12',{% endfor %} '#00AC5B', '#F39C12'],
+                   borderColor: [{% for f,i in financier.items %}'rgba(0,0,0,.5)',{% endfor %} 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },
+               {
+
+                   label: 'Alumni',
+                   data: [{% for f,i in financier.items %} 0,{% endfor %} 0, '{{ALU|stringformat:"f"}}'],
+                   backgroundColor: [{% for f,i in financier.items %}'#A4A4A4',{% endfor %} '#00AC5B', '#A4A4A4'],
+                   borderColor: [{% for f,i in financier.items %}'rgba(0,0,0,.5)',{% endfor %} 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },
+               {
+                   label: 'Komplettes Jahr',
+                   data: [{% for f,i in financier.items %} '{{i.1|stringformat:"f"}}',{% endfor %} 0, 0],
+                   backgroundColor: [{% for f,i in financier.items %}'#F56954',{% endfor %} '#00AC5B', '#00AC5B'],
+                   borderColor: [{% for f,i in financier.items %}'rgba(0,0,0,.5)',{% endfor %} 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },
+               {
+                   label: 'Auslaufend im Jahr',
+                   data: [{% for f,i in financier.items %} '{{i.2|stringformat:"f"}}',{% endfor %} 0, 0],
+                   backgroundColor: [{% for f,i in financier.items %}'#000000',{% endfor %} '#00AC5B', '#5882FA'],
+                   borderColor: [{% for f,i in financier.items %}'rgba(0,0,0,.5)',{% endfor %} 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },
+               {
+                   label: 'Gestartet dieses Jahr',
+                   data: [{% for f,i in financier.items %} '{{i.3|stringformat:"f"}}',{% endfor %} 0, 0],
+                   backgroundColor: [{% for f,i in financier.items %}'#007878',{% endfor %} '#00AC5B', '#FA5882'],
+                   borderColor: [{% for f,i in financier.items %}'rgba(0,0,0,.5)',{% endfor %} 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },
+               {
+                   label: 'Gestartet und Beendet dieses Jahr',
+                   data: [{% for f,i in financier.items %} '{{i.4|stringformat:"f"}}',{% endfor %} 0, 0],
+                   backgroundColor: [{% for f,i in financier.items %}'#00C0EF',{% endfor %} '#00AC5B', '#FAAC58'],
+                   borderColor: [{% for f,i in financier.items %}'rgba(0,0,0,.5)',{% endfor %} 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },
+           ]
+       },
+       options: {
+         legend: {display:true},
+         responsive: true,
+         scales: {
+             xAxes: [{stacked:true}],
+             yAxes: [{
+                 stacked:true,
+                 ticks: {beginAtZero: true}
+             }]
+         }
+       }
+    });
+</script>

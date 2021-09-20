@@ -1,0 +1,22 @@
+<script>
+    var ctx = document.getElementById("barChart");
+    var myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+           labels: ["rez. Journal", "Journal", "rez. Konferenz", "Konferenz", "Sonstige"],
+           datasets: [
+               {
+                   label: 'Veröffentlichungen',
+                   data: [{{publication_stats.0|stringformat:"f"}}, {{publication_stats.1|stringformat:"f"}}, {{publication_stats.2|stringformat:"f"}}, {{publication_stats.3|stringformat:"f"}}, {{publication_stats.4|stringformat:"f"}}],
+                   backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
+                   borderColor: ['rgba(0,0,0,.5)', 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)', 'rgba(0,0,0,.5)'],
+                   borderWidth: 1,
+               },  
+           ]
+       },
+       options: {
+         legend: {display:false},
+         responsive: true,
+       }
+    });
+</script>

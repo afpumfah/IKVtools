@@ -1,0 +1,39 @@
+<div class="card card-outline card-lightblue">
+    <div class="card-header">
+        <h5 class="text text-lightblue disabled"> Industrieprojekte </h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th> FA-Nummer </th>
+                    <th> Kurztitel </th>
+                    <th> Ende Buchhaltung </th>
+                    <th> Gesamtvolumen [€]</th>
+                    <th> Verfügbare Ausgaben [€]</th>
+                    <th> Status </th>
+                </tr>
+                {% for ip in industry_projects %}
+                <tr>
+                    <td><a class="text text-lightblue" href="{% url 'IKVindustry:detail' ip.pk %}">{{ip.fanr}}</a></td>
+                    <td>{{ip.short_title}}</td>
+                    <td>{{ip.finish_finance_a|date:"d.m.Y"}}</td>
+                    <td>{{ip.sum_wp}}</td>
+                    <td>{{ip.assi_budget_left}}</td>
+                    <td>
+                            {% if ip.status == "CR" %}
+                            <span class="badge badge-primary">{{ip.get_status_display}}</span>
+                            {% elif ip.status == "GO" %}
+                            <span class="badge badge-success">{{ip.get_status_display}}</span>
+                            {% elif ip.status == "END" %}
+                            <span class="badge bg-gray">{{ip.get_status_display}}</span>
+                            {% else %}
+                            <span class="badge badge-dark">{{ip.get_status_display}}</span>
+                            {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>

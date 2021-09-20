@@ -1,0 +1,9 @@
+{% if assi.status == 'PL' %}
+    <span class="badge bg-warning">{{assi.get_status_display}}</span>
+{% elif assi.status == 'AC' %}
+    <span class="badge bg-success">{{assi.get_status_display}}</span>
+{% elif assi.status == 'ALU' %}
+    <span class="badge bg-gray">{{assi.get_status_display}}</span>
+{% elif assi.status == 'IC' %}
+    <span class="badge bg-danger">{{assi.get_status_display}}</span>
+{% endif %}

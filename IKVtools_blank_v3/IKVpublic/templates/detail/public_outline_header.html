@@ -1,0 +1,17 @@
+{% if  object.status == 'ID' %}
+    <div class="card card-outline card-danger">
+{% elif object.status == 'CR' %}
+    <div class="card card-outline card-primary">
+{% elif object.status == 'GO' %}
+    <div class="card card-outline card-success">
+{% elif object.status == 'END' %}
+    <div class="card card-outline card-gray">
+{% elif object.status == 'DD' %}
+    <div class="card card-outline card-gray-dark">
+{% elif object.status == 'PL' %}
+    <div class="card card-outline card-warning">
+{% elif object.status == 'AC' %}
+    <div class="card card-outline card-olive">
+{% elif object.status == 'PO' %}
+    <div class="card card-outline card-maroon">
+{% endif %}

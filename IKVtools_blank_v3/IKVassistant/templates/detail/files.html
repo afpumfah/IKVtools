@@ -1,0 +1,10 @@
+{% if files %}
+<dl class="row text-muted">
+    {% for f in files %}
+    <dt class="col-sm-4">{{f.description}}:</dt><dd class="col-sm-8"><a class="btn-link text-secondary" href="{{f.file.url}}">{{ f.file}}</a></dd>
+    {% endfor %}
+</dl>
+{% else %}
+<p class="text text-muted">Bisher keine Dokumente vorhanden</p>
+{% endif %}
+
